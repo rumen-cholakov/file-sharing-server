@@ -6,13 +6,13 @@ defmodule Server.KeyData do
     field(:key, :string)
     field(:files, :string)
 
-    timestamps
+    timestamps()
   end
 
   @required_fields ~w(key files)
   @optional_fields ~w()
 
-  def changeset(key_data, params \\ :empty) do
+  def changeset(key_data, params \\ %{}) do
     key_data
     |> cast(params, @required_fields, @optional_fields)
     |> unique_constraint(:key)
