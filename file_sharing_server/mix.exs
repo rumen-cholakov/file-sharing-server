@@ -15,6 +15,9 @@ defmodule FileSharingServer.MixProject do
   #
   # Run "mix help deps" for examples and options.
   defp deps do
-    []
+    [
+      {:ecto, "~> 2.1"},
+      {:postgrex, ">= 0.0.0"}
+    ]
   end
 end
