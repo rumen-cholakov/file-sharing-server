@@ -21,7 +21,7 @@ defmodule Server.DBHandler do
 
   def update_row(key, files) do
     changeset = Repo.get(KeyData, key)
-    changeset = Ecto.Changeset.change changeset, files: files
+    changeset = Ecto.Changeset.change(changeset, files: files)
 
     Repo.update(changeset)
   end
@@ -30,9 +30,5 @@ defmodule Server.DBHandler do
     changeset = Repo.get(KeyData, key)
 
     Repo.delete(changeset)
-
   end
-
-
-
 end

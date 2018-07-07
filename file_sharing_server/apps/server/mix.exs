@@ -27,7 +27,8 @@ defmodule Server.MixProject do
   defp deps do
     [
       {:ecto, "~> 2.1"},
-      {:postgrex, ">= 0.0.0"}
+      {:postgrex, ">= 0.0.0"},
+      {:fs, github: "synrc/fs"}
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
       # {:sibling_app_in_umbrella, in_umbrella: true},

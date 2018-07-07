@@ -17,7 +17,8 @@ defmodule FileSharingServer.MixProject do
   defp deps do
     [
       {:ecto, "~> 2.1"},
-      {:postgrex, ">= 0.0.0"}
+      {:postgrex, ">= 0.0.0"},
+      {:fs, github: "synrc/fs"}
     ]
   end
 end
