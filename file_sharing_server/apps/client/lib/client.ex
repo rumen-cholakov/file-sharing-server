@@ -25,6 +25,9 @@ defmodule Client do
         case Node.connect(:"#{server_name}@#{server_location}") do
           true ->
             node_id = Node.self()
+            [server_node] = Node.list()
+
+            GenServer.call({Server, server_node}, {:create_connection, client: node_id, key: key})
 
             {:ok,
              %{
@@ -64,7 +67,10 @@ defmodule Client do
 
   # TODO check server output
   def handle_call({:get_files}, _from, %{key: key, directory: directory} = state) do
-    Server.get_files(key, directory)
+    [server_node] = Node.list()
+
+    GenServer.call({Server.ClientHandler, server_node}, {:get_files, key: key, directory: directory})
+
     {:reply, "files downloaded", %{state | last_update: current_time()}}
   end
 
@@ -74,7 +80,13 @@ defmodule Client do
         _from,
         %{key: key, last_update: last_update, directory: directory} = state
       ) do
-    Server.update_files(key, last_update, directory)
+    [server_node] = Node.list()
+
+    GenServer.call(
+      {Server.ClientHandler, server_node},
+      {:update_files, key: key, directory: directory, last_update: last_update}
+    )
+
     {:reply, %{state | last_update: current_time()}}
   end
 

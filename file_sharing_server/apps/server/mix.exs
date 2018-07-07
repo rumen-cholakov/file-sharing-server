@@ -18,7 +18,7 @@ defmodule Server.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :postgrex, :ecto],
+      extra_applications: [:logger, :postgrex, :ecto, :fs],
       mod: {Server.Application, []}
     ]
   end

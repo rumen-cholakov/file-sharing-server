@@ -21,9 +21,20 @@ defmodule Client.Application do
 
     # List all child processes to be supervised
     children = [
-      {Client.CLI.Worker, :start},
-      {Client.Worker,
-       [[name: server_name, location: server_location, directory: dir, client_name: client_name]]},
+      %{id: Client.CLI.Worker, start: {Client.CLI, :start, []}},
+      %{
+        id: Client.Worker,
+        start:
+          {Client, :start_link,
+           [
+             [
+               name: server_name,
+               location: server_location,
+               directory: dir,
+               client_name: client_name
+             ]
+           ]}
+      },
       {Task.Supervisor, [[name: :tasks_supervisor]]}
       # Starts a worker by calling: Client.Worker.start_link(arg)
       # {Client.Worker, arg},

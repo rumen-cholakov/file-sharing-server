@@ -13,7 +13,30 @@ defmodule Server.DBHandler do
     Repo.all(query)
   end
 
-  def add_row(key, files) do
+  def get_timestamp(key) do
+    query =
+      from(
+        row in KeyData,
+        where: row.key == ^key,
+        select: row.timestamp
+      )
+
+    Repo.all(query)
+  end
+
+  def add_row(path) do
+    key = Path.dirname(path)
+
+    files =
+      Path.join([path, '*'])
+      |> Path.wildcard()
+      |> Enum.join(", ")
+
+    DynamicSupervisor.start_child(Server.DynamicSupervisor, %{
+      id: Server.FSWatcher.Worker,
+      start: {Server.FSWatcher, :start, [[path]]}
+    })
+
     changeset = KeyData.changeset(%KeyData{}, %{key: key, files: files})
 
     Repo.insert(changeset)
